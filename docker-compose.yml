@@ -1,17 +1,12 @@
+version: '3.8'
+
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: mern-songs-app
+    environment:
+      - MONGO_URI=mongodb+srv://daniel:1234@cluster0.klfdb.mongodb.net/songs?retryWrites=true&w=majority&appName=Cluster0
     ports:
-      - "5000:5000"
-    env_file:
-      - .env
-
-    volumes:
-      - .:/app
-      - ./data:/data/db
-
+      - "10000:10000"
     depends_on:
       - mongo
 

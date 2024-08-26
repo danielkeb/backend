@@ -1,13 +1,21 @@
-// server/config/db.js
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch((error) => console.log(`MongoDB connection error: ${error.message}`));
+    const dbURI = process.env.MONGO_URI;
+
+    if (!dbURI) {
+      throw new Error('MONGO_URI environment variable is not set');
+    }
+
+    await mongoose.connect(dbURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    console.log('MongoDB connected');
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error(`MongoDB connection error: ${error.message}`);
     process.exit(1);
   }
 };
